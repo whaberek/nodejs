@@ -1,0 +1,9 @@
+---
+  - hosts: all
+    remote_user: vagrant
+    serial: 1
+    become: yes
+    roles:
+      - environment
+      - mongodb
+      - nodejs

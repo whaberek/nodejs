@@ -1,0 +1,52 @@
+# Install mongodb
+---
+- name: Add MongoDB ppa key
+  command: apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
+  become: yes
+- name: Add mongo sources list
+  shell: echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.0.list
+- name: Install MongoDB
+  apt:
+    update_cache: yes
+    name: mongodb-org
+  become: yes
+- name: Hold verion of MongoDB
+  command: echo 'mongodb-org hold' | sudo dpkg --set-selections
+- name: Install the latest pymongo package
+  pip: name=pymongo state=latest use_mirrors=no
+- name: Set confing for mongodb
+  copy:
+    src: /vagrant/config/mongodb.service
+    dest: /etc/systemd/system/mongodb.service
+- name: Replace mongod config
+  copy:
+    src: /vagrant/config/mongod.conf
+    dest: /etc/mongod.conf
+- name: Start MongoDB
+  command: systemctl start mongodb
+  become: yes
+- name: Create MongoDB admin user
+  mongodb_user:
+    user: Admin
+    password: Admin
+    database: admin
+    roles: readWriteAnyDatabase
+    state: present
+  become: yes
+- name: Create test User and database
+  mongodb_user:
+    login_user: Admin
+    login_password: Admin
+    database: test
+    name: test
+    password: asd56789
+    roles: readWrite
+    state: present
+- name: Drop old db
+  command: mongo test --eval 'db.users.drop()'
+- name: Seed the database with non customer data
+  command: mongoimport --db test --collection users --type json --file /vagrant/seeds/users.json --jsonArray
+- name: Restart MongoDB
+  service:
+    name: mongodb
+    state: started

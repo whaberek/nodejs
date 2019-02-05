@@ -1,0 +1,16 @@
+.idea/
+.vscode/settings.json
+.nyc_output/
+vagrant/ubuntu-xenial-16.04-cloudimg-console.log
+/vagrant/.vagrant/
+/vagrant/node_modules/
+node_modules/
+/vagrant/package-lock.json
+/jsdoc/
+/log/
+/coverage
+
+.env-dev
+.DS_store
+yarn-error.log
+ubuntu-bionic-18.04-cloudimg-console.log

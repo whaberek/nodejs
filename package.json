@@ -1,0 +1,54 @@
+{
+  "name": "api",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "preinstall": "yarn global add node-pre-gyp",
+    "start": "pm2-runtime ecosystem.config.js",
+    "develop": "nodemon -L ./bin/www",
+    "inspect": "nodemon --inspect=192.168.3.10:19229 -L ./bin/www",
+    "develop-inspect": "nodemon -L --exec node --inspect ./bin/www",
+    "test": "mocha $(echo mochaSetup.js; find lib modules -name '*.test.js')",
+    "test-coverage": "nyc --reporter=html --reporter=text mocha $(echo mochaSetup.js; find lib modules -name '*.test.js')",
+    "lint": "eslint ."
+  },
+  "engines": {
+    "node": "10.x",
+    "yarn": "1.x"
+  },
+  "dependencies": {
+    "bcrypt": "^3.0.0",
+    "body-parser": "~1.18.3",
+    "cookie-parser": "~1.4.3",
+    "cron": "^1.6.0",
+    "ejs": "^2.6.1",
+    "express": "^5.0.0-alpha.7",
+    "joi": "^14.3.0",
+    "jsonwebtoken": "^8.4.0",
+    "jwt-express": "^1.1.0",
+    "mongodb": "^3.1.10",
+    "mongoose": "^5.4.0",
+    "morgan": "~1.9.0",
+    "multer": "^1.3.1",
+    "nyc": "^13.1.0",
+    "phantom": "^6.0.3",
+    "pm2": "^3.2.7",
+    "request": "^2.87.0",
+    "request-ip": "^2.1.1",
+    "winston": "^3.0.0"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "chalk": "^2.4.1",
+    "dotenv": "^6.2.0",
+    "eslint": "^5.10.0",
+    "eslint-config-airbnb": "^17.0.0",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-plugin-import": "^2.13.0",
+    "jsdoc": "^3.5.5",
+    "mocha": "^5.2.0",
+    "node-mocks-http": "^1.7.0",
+    "proxyquire": "^2.0.1",
+    "sinon": "^7.2.2"
+  }
+}
